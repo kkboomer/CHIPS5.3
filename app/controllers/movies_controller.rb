@@ -3,7 +3,7 @@ class MoviesController < ApplicationController
 
   # GET /movies or /movies.json
     def index
-      @needredir = false
+      @need_redir = false
       @all_ratings = Movie.all_ratings
       if params[:sort_by].nil? and not session[:sort_by].nil? and params[:home].nil?
         @redir_sort = session[:sort_by]
@@ -23,9 +23,6 @@ class MoviesController < ApplicationController
       end
       session[:sort_by]= params[:sort_by]
       session[:ratings] = params[:ratings]
-      if params[:home].nil?
-        redirect_to movies_path(sort_by: params[:sort_by], ratings: Movie.all_ratings, home: 1)
-      end
       if params[:ratings]
         @ratings_to_show = params[:ratings].keys
       else
