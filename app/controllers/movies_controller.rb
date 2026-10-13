@@ -5,30 +5,27 @@ class MoviesController < ApplicationController
     def index
       @needredir = false
       @all_ratings = Movie.all_ratings
-      if params[:sort_by].nil? and not session[:sort_by].nil?
+      if params[:sort_by].nil? and not session[:sort_by].nil? and params[:home].nil?
         @redir_sort = session[:sort_by]
-        @needredir = true
+        @need_redir = true
       else
         @redir_sort = params[:sort_by]
       end
-      if params[:ratings].nil? and not session[:ratings].nil?
+      if params[:ratings].nil? and not session[:ratings].nil? and params[:home].nil?
         @redir_rating = session[:ratings]
-        @needredir = true
+        @need_redir = true
       else
         @redir_rating = params[:ratings]
       end
-      if @needredir
+      if @need_redir
         redirect_to movies_path(sort_by: @redir_sort, ratings:@redir_rating)
         return
       end
       session[:sort_by]= params[:sort_by]
       session[:ratings] = params[:ratings]
       if params[:home].nil?
-
+        redirect_to movies_path(sort_by: params[:sort_by], ratings: Movie.all_ratings, home: 1)
       end
-
-
-
       if params[:ratings]
         @ratings_to_show = params[:ratings].keys
       else

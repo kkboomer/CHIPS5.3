@@ -7,6 +7,7 @@
      re-sort the table. %>
 <%= form_tag movies_path, method: :get, id: 'ratings_form', local: true do %>
   <%= hidden_field_tag :sort_by, @sort_by %>
+  <%= hidden_field_tag  :home, 1 %>
   Include:
   <% @all_ratings.each do |rating| %>
     <div class="form-check  form-check-inline">
@@ -24,13 +25,13 @@
   <thead>
     <tr>
       <th scope="col" aria-sort="<%= sort_aria('title') %>" class="<%= sort_classes('title') %>">
-        <%= link_to movies_path(sort_by: 'title', ratings: @ratings_to_show.index_with('1')), id: 'title_header' do %>
+        <%= link_to movies_path(sort_by: 'title', ratings: @ratings_to_show.index_with('1'), home: 1), id: 'title_header' do %>
           Movie Title<%= sort_indicator('title') %>
         <% end %>
       </th>
       <th scope="col">Rating</th>
       <th scope="col" aria-sort="<%= sort_aria('release_date') %>" class="<%= sort_classes('release_date') %>">
-        <%= link_to movies_path(sort_by: 'release_date', ratings: @ratings_to_show.index_with('1')), id: 'release_date_header' do %>
+        <%= link_to movies_path(sort_by: 'release_date', ratings: @ratings_to_show.index_with('1'), home: 1), id: 'release_date_header' do %>
           Release Date<%= sort_indicator('release_date') %>
         <% end %>
       </th>
