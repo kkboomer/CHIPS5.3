@@ -22,9 +22,18 @@
   <caption class="visually-hidden">All movies.</caption>
   <thead>
     <tr>
-      <th scope="col">Movie Title</th>
+      <th scope="col" aria-sort="<%= sort_aria('title') %>" class="<%= sort_classes('title') %>">
+        <%= link_to movies_path(sort_by: 'title'), id: 'title_header' do %>
+          Movie Title<%= sort_indicator('title') %>
+        <% end %>
+      </th>
       <th scope="col">Rating</th>
-      <th scope="col">Release Date</th>
+      <th scope="col" aria-sort="<%= sort_aria('release_date') %>" class="<%= sort_classes('release_date') %>">
+        <%= link_to movies_path(sort_by: 'release_date'), id: 'release_date_header' do %>
+          Release Date<%= sort_indicator('release_date') %>
+        <% end %>
+      </th>
+
       <th scope="col">More Info</th>
     </tr>
   </thead>
