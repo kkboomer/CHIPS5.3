@@ -24,7 +24,8 @@ class MoviesController < ApplicationController
       session[:sort_by]= params[:sort_by]
       session[:ratings] = params[:ratings]
       if params[:ratings]
-        @ratings_to_show = params[:ratings].keys
+        # If it acts like a hash, extract the keys. If it is already an array, just use it
+        @ratings_to_show = params[:ratings].respond_to?(:keys) ? params[:ratings].keys : params[:ratings]
       else
         @ratings_to_show = @all_ratings
       end
