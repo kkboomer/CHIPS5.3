@@ -2,16 +2,41 @@ class MoviesController < ApplicationController
   before_action :set_movie, only: %i[ show edit update destroy ]
 
   # GET /movies or /movies.json
-  def index
-    @all_ratings = Movie.all_ratings
-    if params[:ratings]
-      @ratings_to_show = params[:ratings].keys
-    else
-      @ratings_to_show = @all_ratings
+    def index
+      @needredir = false
+      @all_ratings = Movie.all_ratings
+      if params[:sort_by].nil? and not session[:sort_by].nil?
+        @redir_sort = session[:sort_by]
+        @needredir = true
+      else
+        @redir_sort = params[:sort_by]
+      end
+      if params[:ratings].nil? and not session[:ratings].nil?
+        @redir_rating = session[:ratings]
+        @needredir = true
+      else
+        @redir_rating = params[:ratings]
+      end
+      if @needredir
+        redirect_to movies_path(sort_by: @redir_sort, ratings:@redir_rating)
+        return
+      end
+      session[:sort_by]= params[:sort_by]
+      session[:ratings] = params[:ratings]
+      if params[:home].nil?
+
+      end
+
+
+
+      if params[:ratings]
+        @ratings_to_show = params[:ratings].keys
+      else
+        @ratings_to_show = @all_ratings
+      end
+      @sort_by = params[:sort_by]
+      @movies = Movie.with_ratings(@ratings_to_show).order(@sort_by)
     end
-    @sort_by = params[:sort_by]
-    @movies = Movie.with_ratings(@ratings_to_show).order(@sort_by)
-  end
 
   # GET /movies/1 or /movies/1.json
   def show
